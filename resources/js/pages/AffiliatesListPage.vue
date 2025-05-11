@@ -54,6 +54,7 @@ const route = useRoute();
 const store = useAffiliatesStore();
 
 onMounted(() => {
+    store.clearUploadError();
     if (store.affiliates.length) {
         affiliates.value = store.affiliates;
         loading.value = false;

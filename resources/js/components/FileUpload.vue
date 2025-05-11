@@ -27,15 +27,34 @@ async function onFileChange(event) {
                 'X-CSRF-TOKEN': csrfToken,
             },
         });
+
+        if (!response.ok) {
+            //if responsse is wrong, catching the error and display in "danger error box"
+            let errorMsg = 'Failed to upload or process file.';
+            try {
+                const errorData = await response.json();
+                if (errorData && errorData.errors) {
+                    errorMsg = Object.values(errorData.errors).flat().join(' ');
+                } else if (errorData && errorData.message) {
+                    errorMsg = errorData.message;
+                }
+            } catch (e) {
+                console.error('Error parsing error response:', e);
+            }
+            store.uploadError = errorMsg;
+            return;
+        }
+
         const data = await response.json();
         if (data.affiliates) {
             store.setAffiliates(data.affiliates);
             router.push({ name: 'AffiliatesList' });
+            store.uploadError = null;
         } else if (data.error) {
-            alert(data.error);
+            store.uploadError = data.error;
         }
     } catch (e) {
-        alert('Failed to upload or process file.');
+        store.uploadError = 'Failed to upload or process file.';
     }
 }
 </script>
