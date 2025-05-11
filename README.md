@@ -6,8 +6,7 @@ A Laravel application that calculates and returns nearby affiliates within 100km
 
 1. Clone the repository:
 ```bash
-git clone <your-repo-url>
-cd <your-repo-name>
+git clone https://github.com/bojan-denic-public/gdc_affiliate.git
 ```
 
 2. Start the application with Sail:
